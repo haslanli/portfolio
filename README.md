@@ -23,9 +23,3 @@ Personal portfolio website built with React, TypeScript, and Vite. Hosted on Ver
 ## 🌐 Languages
 
 * English, Russian, Turkish, and basic German.
-
-## 📝 How to Update
-
-1. Create a feature branch: `git checkout -b feature-name`
-2. Commit changes: `git commit -m "feat: description"`
-3. Push and create a Pull Request on GitHub to trigger the Vercel Preview.
