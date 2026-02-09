@@ -2,10 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { Github, Linkedin, Mail, Instagram, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PERSONAL_INFO } from '../constants';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 
 const Hero: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const socialControls = useAnimation();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -104,6 +105,26 @@ const Hero: React.FC = () => {
     };
   }, []);
 
+  const handleContactClick = () => {
+    socialControls.start({
+      y: [0, -20, -20, 0],
+      scale: [1, 1.5, 1.5, 1],
+      rotate: [0, -20, 20, -15, 15, 0],
+      filter: [
+        "drop-shadow(0 0 0px rgba(99,102,241,0))", 
+        "drop-shadow(0 0 25px rgba(99,102,241,1))", 
+        "drop-shadow(0 0 25px rgba(99,102,241,1))", 
+        "drop-shadow(0 0 0px rgba(99,102,241,0))"
+      ],
+      color: ["#64748b", "#ffffff", "#ffffff", "#64748b"],
+      transition: { 
+        duration: 1.5, 
+        ease: "easeInOut",
+        times: [0, 0.2, 0.5, 1]
+      }
+    });
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       <canvas 
@@ -132,7 +153,7 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-5xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight"
             >
-                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 animate-gradient-x">Huseyn Aslanli</span>
+                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-gradient-x">Huseyn Aslanli</span>
             </motion.h1>
             
             <motion.p 
@@ -150,19 +171,30 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16"
             >
-                <Link 
-                    to="/projects" 
-                    className="group relative px-8 py-4 bg-white text-navy-950 rounded-full font-bold transition-all hover:bg-indigo-50 hover:scale-105 flex items-center gap-2"
-                >
-                    View Projects
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link 
-                    to="/contact" 
-                    className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-full font-medium transition-all hover:scale-105 backdrop-blur-sm"
+                {/* Segmented Pill Button */}
+                <div className="flex items-center bg-white rounded-full overflow-hidden transition-transform hover:scale-105 duration-300 shadow-lg shadow-indigo-500/10">
+                    <Link 
+                        to="/skills" 
+                        className="px-6 py-4 text-navy-950 font-bold hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                    >
+                        View Skills
+                    </Link>
+                    <div className="w-[1px] h-5 bg-slate-200"></div>
+                    <Link 
+                        to="/projects" 
+                        className="px-6 py-4 text-navy-950 font-bold hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center gap-2 group/btn"
+                    >
+                        Projects
+                        <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
+                </div>
+
+                <button 
+                    onClick={handleContactClick}
+                    className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-full font-medium transition-all hover:scale-105 backdrop-blur-sm cursor-pointer"
                 >
                     Contact Me
-                </Link>
+                </button>
             </motion.div>
 
             <motion.div 
@@ -177,15 +209,17 @@ const Hero: React.FC = () => {
                     { icon: Mail, href: `mailto:${PERSONAL_INFO.email}` },
                     { icon: Instagram, href: PERSONAL_INFO.instagram },
                 ].map((item, index) => (
-                    <a 
+                    <motion.a 
                         key={index}
                         href={item.href} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="text-slate-500 hover:text-white transition-colors hover:scale-110 duration-200"
+                        className="text-slate-500"
+                        animate={socialControls}
+                        whileHover={{ scale: 1.1, color: '#ffffff' }}
                     >
                         <item.icon className="w-6 h-6" />
-                    </a>
+                    </motion.a>
                 ))}
             </motion.div>
         </div>

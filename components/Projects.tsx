@@ -36,28 +36,9 @@ const Projects: React.FC = () => {
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors">{project.title}</h3>
                   <div className="flex gap-3">
-                    {project.github && (
-                      <a 
-                        href={project.github}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="p-2 bg-white/5 rounded-full text-slate-400 hover:text-white hover:bg-indigo-600 transition-all"
-                        title="View Code"
-                      >
-                        <Github className="w-5 h-5" />
-                      </a>
-                    )}
-                    {project.link && (
-                      <a 
-                        href={project.link}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="p-2 bg-white/5 rounded-full text-slate-400 hover:text-white hover:bg-indigo-600 transition-all"
-                        title="Live Demo"
-                      >
-                        <ExternalLink className="w-5 h-5" />
-                      </a>
-                    )}
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/5 text-xs text-slate-500 italic">
+                        Links will be added soon
+                    </span>
                   </div>
                 </div>
 

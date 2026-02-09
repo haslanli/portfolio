@@ -19,10 +19,9 @@ const About: React.FC = () => {
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
               
-              {/* NOTE: Please place your image file named 'portrait.jpg' in your public folder */}
               <div className="relative w-80 h-96 sm:w-96 sm:h-[30rem] rounded-2xl overflow-hidden border border-white/10 bg-navy-800 shadow-2xl">
                  <img 
-                    src="/portrait.jpg" 
+                    src="https://github.com/haslanli.png" 
                     alt={PERSONAL_INFO.name} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
@@ -30,8 +29,7 @@ const About: React.FC = () => {
                         e.currentTarget.style.display = 'none';
                         e.currentTarget.parentElement?.classList.add('flex', 'items-center', 'justify-center');
                         const icon = document.createElement('div');
-                        icon.innerHTML = '<svg class="w-20 h-20 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg><p class="text-slate-500 mt-4 text-sm">Add portrait.jpg to public folder</p>';
-                        icon.className = 'flex flex-col items-center';
+                        icon.innerHTML = '<svg class="w-20 h-20 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>';
                         e.currentTarget.parentElement?.appendChild(icon);
                     }}
                  />
@@ -79,13 +77,6 @@ const About: React.FC = () => {
                 Connect on LinkedIn
                 <ExternalLink className="w-4 h-4 opacity-50 group-hover:translate-x-1 transition-transform" />
               </a>
-              <button 
-                className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl font-medium transition-all flex items-center gap-2 backdrop-blur-sm"
-                onClick={() => alert("Resume download to be configured")}
-              >
-                <Download className="w-4 h-4" />
-                Resume
-              </button>
             </div>
           </div>
           

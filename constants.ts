@@ -112,7 +112,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Referral Name",
     role: "Job Title",
     company: "Company Name",
-    text: "This is a placeholder for the testimonial text. You can replace this with genuine feedback from a colleague, professor, or client.",
+    text: "Text will be here",
     image: "", // Add URL here (e.g., https://example.com/photo.jpg)
     linkedin: "https://linkedin.com",
     email: "email@example.com"
@@ -122,7 +122,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Referral Name",
     role: "Job Title",
     company: "Company Name",
-    text: "This is a placeholder for the testimonial text. You can replace this with genuine feedback from a colleague, professor, or client.",
+    text: "Text will be here",
     image: "", 
     linkedin: "https://linkedin.com"
   },
@@ -131,7 +131,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Referral Name",
     role: "Job Title",
     company: "Company Name",
-    text: "This is a placeholder for the testimonial text. You can replace this with genuine feedback from a colleague, professor, or client."
+    text: "Text will be here"
   }
 ];
 
