@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Code } from 'lucide-react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const Header: React.FC = () => {
@@ -27,7 +27,6 @@ const Header: React.FC = () => {
     { name: 'Projects', path: '/projects' },
     { name: 'Skills', path: '/skills' },
     { name: 'Referrals', path: '/referrals' },
-    { name: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -42,8 +41,11 @@ const Header: React.FC = () => {
           transition={{ duration: 0.5 }}
           className={`
             flex items-center justify-between px-6 py-3 rounded-full 
-            border border-white/10 backdrop-blur-xl transition-all duration-300
-            ${isScrolled || isOpen ? 'bg-navy-900/80 w-full md:w-auto shadow-2xl shadow-black/20' : 'bg-transparent w-full md:w-auto border-transparent'}
+            transition-all duration-300
+            ${isScrolled || isOpen 
+                ? 'bg-navy-950/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/10 w-full md:w-auto shadow-2xl shadow-black/10' 
+                : 'bg-transparent border border-transparent w-full md:w-auto'
+            }
           `}
         >
             <Link to="/" className="flex items-center gap-2 text-white font-bold text-xl mr-8 group">
@@ -55,35 +57,38 @@ const Header: React.FC = () => {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <NavLink 
-                  key={link.name} 
-                  to={link.path}
-                  className={({ isActive }) => 
-                    `px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link 
+                    key={link.name} 
+                    to={link.path}
+                    className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 z-10 ${
                       isActive 
-                        ? 'text-white bg-white/10 shadow-inner' 
-                        : 'text-slate-400 hover:text-white hover:bg-white/5'
-                    }`
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              ))}
-              <div className="w-px h-5 bg-white/10 mx-2"></div>
-              <a 
-                href="https://github.com/haslanli" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="px-5 py-2 bg-white text-navy-950 rounded-full text-sm font-bold transition-all hover:bg-indigo-50 hover:scale-105"
-              >
-                GitHub
-              </a>
+                        ? 'text-white' 
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-nav-pill"
+                        className="absolute inset-0 bg-indigo-600 rounded-full -z-10 shadow-lg shadow-indigo-500/30"
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 300, 
+                          damping: 30 
+                        }}
+                      />
+                    )}
+                    {link.name}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Mobile Menu Button */}
             <button 
-              className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+              className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors ml-4"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -97,21 +102,19 @@ const Header: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl md:hidden flex items-center justify-center pt-20"
+          className="fixed inset-0 z-40 bg-navy-950/80 backdrop-blur-2xl backdrop-saturate-150 md:hidden flex items-center justify-center pt-20"
         >
           <div className="flex flex-col items-center space-y-6">
             {navLinks.map((link) => (
-              <NavLink 
+              <Link 
                 key={link.name} 
                 to={link.path}
-                className={({ isActive }) => 
-                  `text-2xl font-light ${
-                    isActive ? 'text-indigo-400 font-medium' : 'text-slate-300'
-                  }`
-                }
+                className={`text-2xl font-light ${
+                  location.pathname === link.path ? 'text-indigo-400 font-medium' : 'text-slate-300'
+                }`}
               >
                 {link.name}
-              </NavLink>
+              </Link>
             ))}
           </div>
         </motion.div>

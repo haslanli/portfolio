@@ -14,7 +14,7 @@ const Skills: React.FC = () => {
   const planning = LEARNING_PATH.filter(item => item.status === 'Planning');
 
   return (
-    <section className="min-h-screen py-32 bg-navy-800">
+    <section className="min-h-screen py-32 bg-navy-900">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
           

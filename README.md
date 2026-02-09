@@ -1,27 +1,20 @@
-# Huseyn Aslanli
-### Computer Science (Cybersecurity) @ Arizona State University
-**Vice President of Corporate Relations @ ACM ASU | AI & IoT Security Specialist**
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Welcome to my portfolio. I am a software engineer focused on the intersection of **Cybersecurity**, **AI Integration**, and **IoT Infrastructure**. My work ranges from building secure MQTT pipelines to leading technical workshops for the Claude Builder Club.
+# Run and deploy your AI Studio app
 
-## 🛠️ Technical Arsenal
-- **Languages:** C++, Python, SQL, TypeScript, Bash
-- **Security & Infrastructure:** Threat Modeling, TLS Encryption, MQTT, Linux System Administration
-- **AI & Data:** LLM API Integration (Claude/Gemini), Prompt Engineering, Streamlit Dashboards
-- **Specialized:** DSP Programming, 3D Modeling (Blender), High-Fidelity Audio Engineering
+This contains everything you need to run your app locally.
 
-## 🚀 Impact Highlights
+View your app in AI Studio: https://ai.studio/apps/drive/1DxFugfkrHsA-1TY-M4HMogczlQXR_Gv0
 
-### Leadership & Community
-* **ACM at ASU (VP of Corporate Relations):** Managing industry partnerships and recruiting senior engineers from firms like **NVIDIA, Google, and Apple** for technical deep-dives.
-* **Claude Builder Club (Workshop Lead):** Facilitating hands-on development sessions to bridge the gap between academic theory and practical LLM deployment.
+## Run Locally
 
-### Engineering Projects
-* **Hydroficient IoT Defense:** Engineered a secure MQTT-based water monitoring pipeline using Python and TLS encryption. Developed a real-time security dashboard to detect replay attacks and monitor system health.
-* **High-Fidelity Audio Engineering:** Designed and tuned custom in-ear monitors (IEMs) to the Harman Curve, integrating Qudelix 5K DAC/AMP technology (Validated & Sold for $5,880).
-* **Automated Trading:** Developed a Python-based trading bot during a technical analyst internship at SG&Richardson Trading.
+**Prerequisites:**  Node.js
 
-## 🎓 Education
-- **Arizona State University**
-- B.S. in Computer Science (Cybersecurity Concentration)
-- Expected Graduation: May 2028
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
