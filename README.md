@@ -1,20 +1,31 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Portfolio | Huseyn Aslanli
 
-# Run and deploy your AI Studio app
+Personal portfolio website built with React, TypeScript, and Vite. Hosted on Vercel at [haslanli.com](https://haslanli.com).
 
-This contains everything you need to run your app locally.
+## 🚀 Projects
 
-View your app in AI Studio: https://ai.studio/apps/drive/1DxFugfkrHsA-1TY-M4HMogczlQXR_Gv0
+* **FPS Game:** Developed and sold a first-person shooter game for $800.
+* **Custom IEMs:** Designed and sold a custom set of in-ear monitors (IEMs) for $5,880.
+* **Python Trading Bot:** Built during an internship with SG&Richardson Trading DMCC.
 
-## Run Locally
+## 🛠 Tech Stack
 
-**Prerequisites:**  Node.js
+* **Frontend:** React, TypeScript, Vite, Tailwind CSS
+* **Deployment:** Vercel
+* **Tools:** Git, GitHub, MacBook Pro environment
 
+## 🎓 Education & Leadership
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+* **Arizona State University:** B.S. in Computer Science (Cybersecurity Concentration).
+* **ACM at ASU:** Serving as the Industry Officer.
+* **Claude Builders Club:** Board Member.
+
+## 🌐 Languages
+
+* English, Russian, Turkish, and basic German.
+
+## 📝 How to Update
+
+1. Create a feature branch: `git checkout -b feature-name`
+2. Commit changes: `git commit -m "feat: description"`
+3. Push and create a Pull Request on GitHub to trigger the Vercel Preview.
