@@ -1,118 +1,164 @@
 import React, { useState } from 'react';
 import { TESTIMONIALS } from '../constants';
-import { Quote, ChevronLeft, ChevronRight, Linkedin, Mail, User } from 'lucide-react';
+import { Quote, Linkedin, Mail, User, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Testimonials: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-  };
-
-  const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  };
-
-  if (TESTIMONIALS.length === 0) return null;
-
-  const current = TESTIMONIALS[activeIndex];
+  // Limit to 3 for the specific "3 vertical windows" design
+  const displayTestimonials = TESTIMONIALS.slice(0, 3);
 
   return (
-    <section className="min-h-screen py-24 bg-navy-900 flex items-center">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-16 text-center">
-          <span className="border-b-4 border-blue-500 pb-2">Referrals</span>
-        </h2>
+    <section className="min-h-screen py-24 bg-transparent relative flex flex-col justify-center transition-colors duration-300">
+      <div className="container mx-auto px-6 max-w-7xl">
+        
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-10"
+        >
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Referrals</h2>
+            <p className="text-slate-600 dark:text-slate-400 text-lg">
+                Insights from colleagues and partners.
+            </p>
+        </motion.div>
 
-        <div className="max-w-4xl mx-auto relative">
-          {/* Navigation Buttons */}
-          <button 
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 p-2 bg-navy-800 rounded-full border border-navy-700 text-white hover:bg-blue-600 transition-all z-10 shadow-lg"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          
-          <button 
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 p-2 bg-navy-800 rounded-full border border-navy-700 text-white hover:bg-blue-600 transition-all z-10 shadow-lg"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+        {/* Accordion Container */}
+        <div className="flex flex-col md:flex-row gap-4 h-[600px] w-full">
+          {displayTestimonials.map((testimonial, idx) => {
+             const isActive = activeIndex === idx;
+             
+             return (
+                <motion.div
+                  key={testimonial.id}
+                  onMouseEnter={() => setActiveIndex(idx)}
+                  onClick={() => setActiveIndex(idx)} // For mobile tap
+                  animate={{
+                    flex: isActive ? 3 : 1,
+                  }}
+                  transition={{ type: "spring", stiffness: 200, damping: 30 }}
+                  className={`
+                    relative rounded-3xl overflow-hidden cursor-pointer
+                    border transition-colors duration-500
+                    ${isActive 
+                        ? 'bg-white dark:bg-white/10 border-indigo-200 dark:border-indigo-500/30 shadow-2xl shadow-indigo-500/10 dark:shadow-[0_0_30px_rgba(99,102,241,0.15)]' 
+                        : 'bg-white/60 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/80 dark:hover:bg-white/10 hover:border-indigo-300 dark:hover:border-white/20'}
+                    backdrop-blur-xl
+                  `}
+                >
+                    {/* Background Highlight for Active */}
+                    <AnimatePresence>
+                        {isActive && (
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-transparent to-transparent dark:from-indigo-500/10 pointer-events-none"
+                            />
+                        )}
+                    </AnimatePresence>
 
-          {/* Card */}
-          <div className="bg-navy-800 p-8 md:p-12 rounded-3xl border border-navy-700 shadow-2xl relative overflow-hidden min-h-[450px] flex flex-col justify-center animate-fade-in">
-            {/* Decorative Quote */}
-            <div className="absolute top-4 right-8 opacity-10 pointer-events-none">
-              <Quote className="w-32 h-32 text-blue-500" />
-            </div>
+                    {/* Content Layer */}
+                    <div className="absolute inset-0 p-6 md:p-8 flex flex-col">
+                        
+                        {/* Header Area */}
+                        <div className={`flex justify-between items-start ${!isActive ? 'md:justify-center' : ''}`}>
+                            <motion.div 
+                                layout 
+                                className={`rounded-full overflow-hidden border border-slate-200 dark:border-white/20 bg-slate-100 dark:bg-navy-800 shrink-0 ${isActive ? 'w-16 h-16' : 'w-12 h-12 md:w-16 md:h-16'}`}
+                            >
+                                {testimonial.image ? (
+                                    <img src={testimonial.image} alt={testimonial.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                        <User className="w-1/2 h-1/2 text-slate-400 dark:text-slate-500" />
+                                    </div>
+                                )}
+                            </motion.div>
 
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-              
-              {/* Profile Image / Info Column */}
-              <div className="flex flex-col items-center text-center md:w-1/3 border-b md:border-b-0 md:border-r border-navy-700 pb-6 md:pb-0 md:pr-8 w-full shrink-0">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-navy-700 border-4 border-navy-600 overflow-hidden mb-4 flex items-center justify-center relative shadow-xl">
-                  {current.image ? (
-                    <img src={current.image} alt={current.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <User className="w-12 h-12 text-slate-500" />
-                  )}
-                </div>
-                
-                <h3 className="text-xl font-bold text-white mb-1">{current.name}</h3>
-                <p className="text-blue-400 text-sm font-medium mb-1">{current.role}</p>
-                <p className="text-slate-500 text-sm mb-4">{current.company}</p>
+                            {/* Quote Icon - Only visible when active */}
+                            {isActive && (
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                >
+                                    <Quote className="w-10 h-10 text-indigo-200 dark:text-indigo-400/30" />
+                                </motion.div>
+                            )}
+                        </div>
 
-                {/* Contacts Slider/Row */}
-                <div className="flex gap-3 mt-auto">
-                  {current.linkedin && (
-                    <a 
-                      href={current.linkedin} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="p-2 bg-navy-900 rounded-full text-slate-400 hover:text-white hover:bg-[#0077b5] transition-all border border-navy-700 hover:border-[#0077b5]"
-                      title="LinkedIn Profile"
-                    >
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                  )}
-                  {current.email && (
-                    <a 
-                      href={`mailto:${current.email}`} 
-                      className="p-2 bg-navy-900 rounded-full text-slate-400 hover:text-white hover:bg-red-500 transition-all border border-navy-700 hover:border-red-500"
-                      title="Send Email"
-                    >
-                      <Mail className="w-4 h-4" />
-                    </a>
-                  )}
-                </div>
-              </div>
+                        {/* Active Content */}
+                        <AnimatePresence mode="wait">
+                            {isActive ? (
+                                <motion.div
+                                    key="content"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.3, delay: 0.1 }}
+                                    className="mt-6 flex flex-col h-full"
+                                >
+                                    <div className="mb-4">
+                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">{testimonial.name}</h3>
+                                        <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-300 text-sm font-medium mt-1">
+                                            <span>{testimonial.role}</span>
+                                            <span className="w-1 h-1 rounded-full bg-slate-400 dark:bg-slate-500" />
+                                            <span className="text-slate-500 dark:text-slate-400">{testimonial.company}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="relative flex-grow overflow-y-auto pr-2 scrollbar-hide">
+                                        <p className="text-slate-700 dark:text-slate-300 text-lg font-light leading-relaxed">
+                                            "{testimonial.text}"
+                                        </p>
+                                    </div>
 
-              {/* Text Column */}
-              <div className="md:w-2/3 text-center md:text-left">
-                <p className="text-slate-300 text-lg md:text-xl italic leading-relaxed">
-                  "{current.text}"
-                </p>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center gap-2 mt-8">
-            {TESTIMONIALS.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  idx === activeIndex ? 'w-8 bg-blue-500' : 'w-2 bg-navy-700 hover:bg-navy-600'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
+                                    <div className="pt-6 mt-4 border-t border-slate-200 dark:border-white/10 flex items-center gap-4">
+                                        {testimonial.linkedin && (
+                                            <a href={testimonial.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 dark:hover:text-white transition-colors">
+                                                <Linkedin className="w-4 h-4" />
+                                                <span>LinkedIn</span>
+                                            </a>
+                                        )}
+                                        {testimonial.email && (
+                                            <a href={`mailto:${testimonial.email}`} className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 dark:hover:text-white transition-colors">
+                                                <Mail className="w-4 h-4" />
+                                                <span>Email</span>
+                                            </a>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ) : (
+                                /* Collapsed State Label (Vertical on Desktop) */
+                                <motion.div
+                                    key="label"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="hidden md:flex flex-grow items-center justify-center"
+                                >
+                                    <div className="rotate-[-90deg] whitespace-nowrap">
+                                        <h3 className="text-xl font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase">{testimonial.name}</h3>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                        
+                        {/* Mobile Collapsed State Label */}
+                        {!isActive && (
+                            <div className="md:hidden mt-4">
+                                <h3 className="text-lg font-bold text-slate-600 dark:text-slate-400">{testimonial.name}</h3>
+                                <p className="text-xs text-slate-500">{testimonial.company}</p>
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
+             );
+          })}
         </div>
       </div>
     </section>

@@ -24,17 +24,17 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section className="min-h-screen py-32 bg-navy-900">
+    <section className="min-h-screen py-32 bg-transparent transition-colors duration-300">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-20">
-             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Get in <span className="text-indigo-500">Touch</span></h2>
-             <p className="text-slate-400 text-lg font-light max-w-2xl mx-auto">Have a project in mind or want to discuss IoT security? I'm always open to new opportunities.</p>
+             <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">Get in <span className="text-indigo-600 dark:text-indigo-500">Touch</span></h2>
+             <p className="text-slate-600 dark:text-slate-400 text-lg font-light max-w-2xl mx-auto">Have a project in mind or want to discuss IoT security? I'm always open to new opportunities.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-16">
           {/* Contact Info */}
           <div>
-            <h3 className="text-2xl font-bold text-white mb-8">Connect Directly</h3>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Connect Directly</h3>
             
             <div className="space-y-4">
               {[
@@ -48,14 +48,14 @@ const Contact: React.FC = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-6 p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-indigo-500/50 hover:bg-white/10 transition-all group"
+                    className="flex items-center gap-6 p-6 bg-white/60 dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/5 hover:border-indigo-500/50 hover:bg-white dark:hover:bg-white/10 transition-all group shadow-sm dark:shadow-none"
                 >
-                    <div className="p-3 bg-black/20 rounded-xl text-indigo-400 group-hover:text-white group-hover:bg-indigo-600 transition-colors">
+                    <div className="p-3 bg-indigo-50 dark:bg-black/20 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:text-white group-hover:bg-indigo-600 transition-colors">
                         <item.icon className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">{item.label}</p>
-                        <p className="text-white font-medium text-lg">{item.value}</p>
+                        <p className="text-slate-900 dark:text-white font-medium text-lg">{item.value}</p>
                     </div>
                 </a>
               ))}
@@ -63,10 +63,10 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/10">
+          <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-2">Name</label>
+                <label htmlFor="name" className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Name</label>
                 <input
                   type="text"
                   id="name"
@@ -74,13 +74,13 @@ const Contact: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500 focus:bg-black/40 transition-all placeholder-slate-600"
+                  className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-black/40 transition-all placeholder-slate-400 dark:placeholder-slate-600"
                   placeholder="John Doe"
                 />
               </div>
               
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -88,13 +88,13 @@ const Contact: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500 focus:bg-black/40 transition-all placeholder-slate-600"
+                  className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-black/40 transition-all placeholder-slate-400 dark:placeholder-slate-600"
                   placeholder="john@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-slate-400 mb-2">Subject</label>
+                <label htmlFor="subject" className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Subject</label>
                 <input
                   type="text"
                   id="subject"
@@ -102,13 +102,13 @@ const Contact: React.FC = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500 focus:bg-black/40 transition-all placeholder-slate-600"
+                  className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-black/40 transition-all placeholder-slate-400 dark:placeholder-slate-600"
                   placeholder="Collaboration Request"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Message</label>
                 <textarea
                   id="message"
                   name="message"
@@ -116,7 +116,7 @@ const Contact: React.FC = () => {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500 focus:bg-black/40 transition-all placeholder-slate-600 resize-none"
+                  className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl px-5 py-4 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-black/40 transition-all placeholder-slate-400 dark:placeholder-slate-600 resize-none"
                   placeholder="Tell me about your project..."
                 ></textarea>
               </div>

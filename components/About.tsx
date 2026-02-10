@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 const About: React.FC = () => {
   return (
-    <section className="min-h-screen py-32 bg-navy-900/50 flex items-center">
+    <section className="min-h-screen py-32 bg-slate-50/50 dark:bg-navy-900/50 flex items-center transition-colors duration-300">
       <div className="container mx-auto px-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -19,7 +19,7 @@ const About: React.FC = () => {
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
               
-              <div className="relative w-80 h-96 sm:w-96 sm:h-[30rem] rounded-2xl overflow-hidden border border-white/10 bg-navy-800 shadow-2xl">
+              <div className="relative w-80 h-96 sm:w-96 sm:h-[30rem] rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-navy-800 shadow-2xl">
                  <img 
                     src="https://github.com/haslanli.png" 
                     alt={PERSONAL_INFO.name} 
@@ -37,7 +37,7 @@ const About: React.FC = () => {
                  {/* Glass Overlay Text */}
                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
                     <p className="text-white font-medium text-lg">{PERSONAL_INFO.name}</p>
-                    <p className="text-indigo-400 text-sm">Computer Science Undergrad</p>
+                    <p className="text-indigo-400 text-sm">CS (Cybersecurity) Student</p>
                  </div>
               </div>
             </div>
@@ -45,24 +45,24 @@ const About: React.FC = () => {
 
           {/* Text Content Column */}
           <div className="w-full lg:w-1/2">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-              About <span className="text-indigo-400">Me</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+              About <span className="text-indigo-600 dark:text-indigo-400">Me</span>
             </h2>
             
-            <div className="flex items-center gap-3 text-slate-400 mb-8 font-light border-l-2 border-indigo-500 pl-4">
-              <MapPin className="w-5 h-5 text-indigo-400" />
+            <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400 mb-8 font-light border-l-2 border-indigo-500 pl-4">
+              <MapPin className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
               <span>{PERSONAL_INFO.location}</span>
             </div>
 
-            <div className="space-y-6 text-slate-300 text-lg leading-relaxed font-light">
+            <div className="space-y-6 text-slate-600 dark:text-slate-300 text-lg leading-relaxed font-light">
                 <p>
-                    I am a Computer Science undergraduate specializing in <strong className="text-white font-medium">Cybersecurity</strong> at Arizona State University. My passion lies at the intersection of secure infrastructure and intelligent systems.
+                    I am a Computer Science undergraduate specializing in <strong className="text-slate-900 dark:text-white font-medium">Cybersecurity</strong> at Arizona State University. My focus is on the convergence of <strong className="text-slate-900 dark:text-white font-medium">AI Integration</strong> and <strong className="text-slate-900 dark:text-white font-medium">IoT Infrastructure</strong>.
                 </p>
                 <p>
-                    Currently, I serve as a <strong className="text-white font-medium">Legal Extern at Hydroficient</strong>, where I engineer secure IoT pipelines using Python and TLS encryption to protect critical water monitoring systems.
+                    I currently work on securing IoT pipelines using secure MQTT and TLS encryption. My expertise ranges from threat modeling and Linux system administration to building LLM-integrated applications.
                 </p>
                 <p>
-                    Beyond code, I am a community leader. As VP of Corporate Relations for ACM at ASU, I bridge the gap between academia and industry, connecting students with mentors from FAANG and Fortune 500 companies.
+                    As <strong className="text-slate-900 dark:text-white font-medium">VP of Corporate Relations at ACM ASU</strong> and a <strong className="text-slate-900 dark:text-white font-medium">Workshop Lead for the Claude Builder Club</strong>, I actively facilitate technical deep-dives and bridge the gap between academic theory and industry practice, bringing in experts from companies like Apple and Google.
                 </p>
             </div>
 

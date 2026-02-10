@@ -64,6 +64,10 @@ const Hero: React.FC = () => {
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
       
+      // Check for Dark Mode to change particle color
+      const isDark = document.documentElement.classList.contains('dark');
+      const particleColor = isDark ? '255, 255, 255' : '99, 102, 241'; // White or Indigo
+
       particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -73,7 +77,7 @@ const Hero: React.FC = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha * 0.5})`;
+        ctx.fillStyle = `rgba(${particleColor}, ${p.alpha * 0.5})`;
         ctx.fill();
 
         const dxMouse = p.x - mouse.x;
@@ -116,7 +120,7 @@ const Hero: React.FC = () => {
         "drop-shadow(0 0 25px rgba(99,102,241,1))", 
         "drop-shadow(0 0 0px rgba(99,102,241,0))"
       ],
-      color: ["#64748b", "#ffffff", "#ffffff", "#64748b"],
+      color: ["#64748b", "#6366f1", "#6366f1", "#64748b"],
       transition: { 
         duration: 1.5, 
         ease: "easeInOut",
@@ -138,31 +142,31 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
+                className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md"
             >
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
                 </span>
-                <span className="text-slate-300 text-xs font-medium tracking-wide uppercase">Available for Hire</span>
+                <span className="text-slate-600 dark:text-slate-300 text-xs font-medium tracking-wide uppercase">Available for Hire</span>
             </motion.div>
             
             <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-5xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight"
+                className="text-5xl md:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight"
             >
-                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-gradient-x">Huseyn Aslanli</span>
+                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-500 dark:to-pink-500 animate-gradient-x">Huseyn Aslanli</span>
             </motion.h1>
             
             <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl md:text-2xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed font-light"
+                className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed font-light"
             >
-                Software Engineer specializing in <strong className="text-slate-200 font-medium">IoT Security</strong>, <strong className="text-slate-200 font-medium">API Development</strong>, and <strong className="text-slate-200 font-medium">LLM Integration</strong>.
+                Software Engineer specializing in <strong className="text-slate-900 dark:text-slate-200 font-medium">IoT Security</strong>, <strong className="text-slate-900 dark:text-slate-200 font-medium">API Development</strong>, and <strong className="text-slate-900 dark:text-slate-200 font-medium">LLM Integration</strong>.
             </motion.p>
 
             <motion.div 
@@ -172,26 +176,26 @@ const Hero: React.FC = () => {
                 className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16"
             >
                 {/* Segmented Pill Button */}
-                <div className="flex items-center bg-white rounded-full overflow-hidden transition-transform hover:scale-105 duration-300 shadow-lg shadow-indigo-500/10">
+                <div className="flex items-center bg-white dark:bg-white rounded-full overflow-hidden transition-transform hover:scale-105 duration-300 shadow-lg shadow-indigo-500/10 border border-slate-200 dark:border-transparent">
                     <Link 
                         to="/skills" 
-                        className="px-6 py-4 text-navy-950 font-bold hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                        className="px-6 py-4 text-slate-900 dark:text-navy-950 font-bold hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
                     >
                         View Skills
                     </Link>
-                    <div className="w-[1px] h-5 bg-slate-200"></div>
+                    <div className="w-[1px] h-5 bg-slate-200 dark:bg-slate-200"></div>
                     <Link 
-                        to="/projects" 
-                        className="px-6 py-4 text-navy-950 font-bold hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center gap-2 group/btn"
+                        to="/experience" 
+                        className="px-6 py-4 text-slate-900 dark:text-navy-950 font-bold hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center gap-2 group/btn"
                     >
-                        Projects
+                        Experience
                         <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Link>
                 </div>
 
                 <button 
                     onClick={handleContactClick}
-                    className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-full font-medium transition-all hover:scale-105 backdrop-blur-sm cursor-pointer"
+                    className="px-8 py-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-white rounded-full font-medium transition-all hover:scale-105 backdrop-blur-sm cursor-pointer shadow-sm dark:shadow-none"
                 >
                     Contact Me
                 </button>
@@ -214,9 +218,9 @@ const Hero: React.FC = () => {
                         href={item.href} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="text-slate-500"
+                        className="text-slate-500 hover:text-indigo-600 dark:hover:text-white transition-colors"
                         animate={socialControls}
-                        whileHover={{ scale: 1.1, color: '#ffffff' }}
+                        whileHover={{ scale: 1.1 }}
                     >
                         <item.icon className="w-6 h-6" />
                     </motion.a>
