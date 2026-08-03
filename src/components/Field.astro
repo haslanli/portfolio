@@ -1,0 +1,219 @@
+---
+import { fieldLines } from '../lib/field';
+
+const lines = fieldLines();
+const VB = { w: 1000, h: 1000 };
+---
+
+<div class="field-holder" data-field>
+  <svg
+    data-field-static
+    viewBox={`0 0 ${VB.w} ${VB.h}`}
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    {
+      lines.map((l) => (
+        <line
+          x1={(l.x * VB.w).toFixed(2)}
+          y1={(l.y0 * VB.h).toFixed(2)}
+          x2={(l.x * VB.w).toFixed(2)}
+          y2={(l.y1 * VB.h).toFixed(2)}
+          stroke={l.accent ? 'var(--shu)' : 'var(--sumi)'}
+          stroke-opacity={l.accent ? 0.85 : 0.26}
+          stroke-width={l.accent ? 1.25 : 1}
+          vector-effect="non-scaling-stroke"
+        />
+      ))
+    }
+  </svg>
+</div>
+
+<script>
+  import { fieldLines, SAMPLES } from '../lib/field';
+
+  const holder = document.querySelector<HTMLElement>('[data-field]');
+  const still = holder?.querySelector<SVGElement>('[data-field-static]');
+  if (!holder || !still) throw new Error('field: missing markup');
+
+  const wantsStill =
+    matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    !matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (!wantsStill) {
+    const lines = fieldLines();
+    const amp = new Float32Array(lines.length);
+    const vel = new Float32Array(lines.length);
+
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      let w = 0;
+      let h = 0;
+      let px = -1e5;
+      let py = -1e5;
+      let pointerIn = false;
+      let raf = 0;
+      let onScreen = true;
+
+      const styles = getComputedStyle(document.documentElement);
+      const sumi = styles.getPropertyValue('--sumi').trim() || '#1a1917';
+      const shu = styles.getPropertyValue('--shu').trim() || '#dc4128';
+
+      const measure = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const r = holder.getBoundingClientRect();
+        w = r.width;
+        h = r.height;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, w, h);
+        const sigma = h * 0.24;
+        const twoSigmaSq = 2 * sigma * sigma;
+
+        for (let i = 0; i < lines.length; i++) {
+          const l = lines[i];
+          const x = l.x * w;
+          const y0 = l.y0 * h;
+          const y1 = l.y1 * h;
+          const a = amp[i];
+
+          ctx.beginPath();
+          for (let s = 0; s < SAMPLES; s++) {
+            const t = s / (SAMPLES - 1);
+            const y = y0 + (y1 - y0) * t;
+            const dy = y - py;
+            const bow = a === 0 ? 0 : a * Math.exp(-(dy * dy) / twoSigmaSq);
+            const xx = x + bow;
+            if (s === 0) ctx.moveTo(xx, y);
+            else ctx.lineTo(xx, y);
+          }
+          ctx.strokeStyle = l.accent ? shu : sumi;
+          ctx.globalAlpha = l.accent ? 0.85 : 0.26;
+          ctx.lineWidth = l.accent ? 1.25 : 1;
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      };
+
+      // Lines are drawn toward the pointer, strongest at a middling distance and
+      // falling away to nothing near and far. Each one settles on its own spring.
+      const step = () => {
+        const reach = w * 0.6;
+        let moving = false;
+
+        for (let i = 0; i < lines.length; i++) {
+          let target = 0;
+          if (pointerIn) {
+            const u = (px - lines[i].x * w) / reach;
+            target = ((2 * u) / (1 + u * u)) * (Math.min(w, h) * 0.085);
+          }
+          vel[i] = (vel[i] + (target - amp[i]) * 0.13) * 0.8;
+          amp[i] += vel[i];
+          if (Math.abs(vel[i]) > 0.02 || Math.abs(target - amp[i]) > 0.02) moving = true;
+        }
+
+        draw();
+        raf = moving || pointerIn ? requestAnimationFrame(step) : 0;
+      };
+
+      const wake = () => {
+        if (!raf && onScreen && !document.hidden) raf = requestAnimationFrame(step);
+      };
+
+      const sleep = () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      };
+
+      // The whole text column is a quiet zone: while the pointer is anywhere over
+      // it, or on its edge, the lines stay at rest so they do not pull at the
+      // reader's eye. The zone is the union of the column's boxes, so it tracks
+      // the layout at every breakpoint without being hard-coded.
+      const quietEls = ['.name', '.standfirst', '.lede', '.facts', '.contact']
+        .map((sel) => document.querySelector<HTMLElement>(sel))
+        .filter((el): el is HTMLElement => el !== null);
+
+      let clientX = -1e5;
+      let clientY = -1e5;
+
+      const overQuietZone = () => {
+        if (!quietEls.length) return false;
+        let left = Infinity;
+        let top = Infinity;
+        let right = -Infinity;
+        let bottom = -Infinity;
+        for (const el of quietEls) {
+          const r = el.getBoundingClientRect();
+          if (r.left < left) left = r.left;
+          if (r.top < top) top = r.top;
+          if (r.right > right) right = r.right;
+          if (r.bottom > bottom) bottom = r.bottom;
+        }
+        return clientX >= left && clientX <= right && clientY >= top && clientY <= bottom;
+      };
+
+      const evaluate = () => {
+        const r = holder.getBoundingClientRect();
+        px = clientX - r.left;
+        py = clientY - r.top;
+        pointerIn =
+          !overQuietZone() &&
+          px > -r.width * 1.3 &&
+          px < r.width * 2.3 &&
+          py > -r.height * 0.35 &&
+          py < r.height * 1.35;
+        wake();
+      };
+
+      window.addEventListener(
+        'pointermove',
+        (e) => {
+          clientX = e.clientX;
+          clientY = e.clientY;
+          evaluate();
+        },
+        { passive: true }
+      );
+
+      // Scrolling and resizing move the zones under a stationary pointer.
+      window.addEventListener('scroll', evaluate, { passive: true });
+      window.addEventListener('resize', evaluate, { passive: true });
+
+      document.addEventListener('pointerleave', () => {
+        pointerIn = false;
+        wake();
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) sleep();
+        else wake();
+      });
+
+      new IntersectionObserver((entries) => {
+        onScreen = entries[0].isIntersecting;
+        if (onScreen) wake();
+        else sleep();
+      }).observe(holder);
+
+      new ResizeObserver(() => {
+        measure();
+        draw();
+      }).observe(holder);
+
+      measure();
+      holder.appendChild(canvas);
+      draw();
+      still.style.display = 'none';
+    }
+  }
+</script>

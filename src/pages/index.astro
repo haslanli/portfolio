@@ -1,0 +1,225 @@
+---
+import '../styles/global.css';
+import Field from '../components/Field.astro';
+import { identity, lede, work, skills, education, profileButtons, footerLinks } from '../data/content';
+
+/** Numeric character references: the address never appears as a plain literal. */
+const entities = (s: string) =>
+  Array.from(s)
+    .map((c) => `&#${c.codePointAt(0)};`)
+    .join('');
+
+const address = `${identity.emailUser}@${identity.emailDomain}`;
+const emailText = entities(address);
+const emailHref = entities(`mailto:${address}`);
+
+const description =
+  'Huseyn Aslanli, founder of Syncretos, building evidence-first multi-LLM AI research. ' +
+  'Computer science at Arizona State University, graduating May 2028. Open to software ' +
+  'engineering and AI/ML roles.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Huseyn Aslanli</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f5f3ee" />
+    <link rel="preload" href="/fonts/satoshi-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/newsreader-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <meta property="og:title" content="Huseyn Aslanli" />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="profile" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body>
+    <main class="sheet">
+      <header class="head">
+        <div class="grid">
+          <h1 class="name">Huseyn Aslanli</h1>
+
+          <p class="standfirst">
+            {identity.role}<span class="sep">/</span><span class="quiet"
+              >{identity.descriptor}</span
+            >
+          </p>
+
+          <p class="lede">{lede}</p>
+
+          <dl class="facts">
+            <div>
+              <dt>Education</dt>
+              <dd>{identity.degree}. Graduating {identity.graduation}.</dd>
+            </div>
+            <div>
+              <dt>Open to</dt>
+              <dd>Software engineering and AI/ML roles</dd>
+            </div>
+            <div>
+              <dt>Based in</dt>
+              <dd>{identity.location}</dd>
+            </div>
+          </dl>
+
+          <div class="contact">
+            <Fragment
+              set:html={`<a class="block block--loud" href="${emailHref}">${emailText}</a>`}
+            />
+            {
+              profileButtons.map((l) => (
+                <a class="block" href={l.href} rel="me noopener">
+                  {l.label}
+                </a>
+              ))
+            }
+          </div>
+
+          <Field />
+        </div>
+      </header>
+
+      <section class="section" aria-labelledby="work-h">
+        <div class="grid">
+          <h2 class="marginal" id="work-h">Work</h2>
+
+          {
+            work.map((entry, i) => (
+              <article class:list={['entry', 'reveal', i === 0 && 'entry--lead']}>
+                <div class="entry__stub">
+                  <h3 class="entry__org">{entry.org}</h3>
+                  <p class="entry__role">{entry.role}</p>
+                  <p class="entry__dates">{entry.dates}</p>
+                  {entry.meta && <p class="entry__meta">{entry.meta}</p>}
+                </div>
+
+                <div class="entry__body">
+                  {entry.body.map((para) => (
+                    <p>{para}</p>
+                  ))}
+
+                  {entry.terms && (
+                    <dl class="terms">
+                      {entry.terms.map((t) => (
+                        <div>
+                          <dt>{t.term}</dt>
+                          <dd>{t.def}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
+                  {entry.subroles && (
+                    <div class="subroles">
+                      {entry.subroles.map((s) => (
+                        <div>
+                          <h4>{s.role}</h4>
+                          <p class="sub-dates">{s.dates}</p>
+                          <p>{s.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {entry.links && (
+                    <div class="entry__links">
+                      {entry.links.map((l) => (
+                        <a class="block" href={l.href} rel="noopener">
+                          {l.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="skills-h">
+        <div class="grid">
+          <h2 class="marginal" id="skills-h">Skills</h2>
+          <dl class="skills">
+            {
+              skills.map((g) => (
+                <div>
+                  <dt>{g.group}</dt>
+                  <dd>
+                    {g.items.map((item, i) => (
+                      <>
+                        {i > 0 && <span class="sep">·</span>}
+                        {item}
+                      </>
+                    ))}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="edu-h">
+        <div class="grid">
+          <h2 class="marginal" id="edu-h">Education</h2>
+          <div class="edu">
+            <p class="edu__degree">{education.degree}</p>
+            <p class="edu__school">{education.school}</p>
+            <p class="edu__dates">{education.dates}</p>
+          </div>
+          <dl class="edu__aside">
+            <dt>Activities</dt>
+            <dd>{education.activities.join(', ')}</dd>
+          </dl>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot sheet">
+      <div class="grid">
+        <div class="foot__contact">
+          <Fragment set:html={`<a class="plain-link" href="${emailHref}">${emailText}</a>`} />
+          {
+            footerLinks.map((l) => (
+              <a class="plain-link" href={l.href} rel="me noopener">
+                {l.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const revealables = document.querySelectorAll<HTMLElement>('.reveal');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        revealables.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              e.target.classList.add('is-in');
+              io.unobserve(e.target);
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px' }
+        );
+        revealables.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

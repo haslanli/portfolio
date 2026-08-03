@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+
+# Source briefs and working notes. Kept on disk as the provenance record for
+# every claim on the site, deliberately not published.
+INTERVIEW.md
+PROMPT.md
+REFERENCES.md
+SOURCE-LINKEDIN.md
