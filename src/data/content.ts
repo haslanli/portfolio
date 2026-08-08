@@ -108,8 +108,8 @@ export const work: Entry[] = [
     source: 'INTERVIEW.md §Claude Builder Club (replaces the LinkedIn wording entirely)',
   },
   {
-    org: 'Hydroficient',
-    role: 'Extern Software Engineer',
+    org: 'Extern @ Hydroficient',
+    role: 'Security Engineer',
     dates: 'Feb 2026 – May 2026',
     meta: 'Contract',
     body: [

@@ -32,9 +32,9 @@ Hybrid
 
 Leads workshops where students build web and OS-native apps with Claude Code. Each app is deliberately small and built around a single concrete concept, so the technique carries into whatever the student builds next.
 
-### Hydroficient
+### Extern @ Hydroficient
 
-**Extern Software Engineer** · Feb 2026 – May 2026<br>
+**Security Engineer** · Feb 2026 – May 2026<br>
 Contract
 
 An attacker who reaches the operator dashboard of a connected water system can move physical controls: raise voltage, tamper with sewer equipment. The scenario was competitive sabotage, one operator breaking into a rival's dashboard to damage their infrastructure. The work was to close that path.
