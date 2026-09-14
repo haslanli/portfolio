@@ -82,6 +82,21 @@ export const work: Entry[] = [
     source: 'PROFILE-SYNC.md §Syncretos',
   },
   {
+    org: 'Android Security Research',
+    role: 'Personal project',
+    dates: '2026',
+    meta: 'Python · PostgreSQL · SQLite · APK reverse engineering',
+    body: [
+      'Built a Python pipeline for Android APK reverse engineering and backend security ' +
+        'assessment to identify exposed API credentials. Validated affected APIs and reported ' +
+        'confirmed credential exposures to application developers.',
+      'Implemented encrypted delivery of research results to PostgreSQL, with SQLite ' +
+        'checkpoints and idempotent retries to prevent data loss and duplicate ingestion ' +
+        'after connection failures or restarts.',
+    ],
+    source: 'PROFILE-SYNC.md §Android Security Research',
+  },
+  {
     org: 'Rendexis',
     role: 'Personal project',
     dates: '2026',
@@ -194,8 +209,9 @@ export const work: Entry[] = [
 
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Languages', items: ['Python', 'C++', 'SQL'] },
-  { group: 'Tools and libraries', items: ['Git', 'Linux/Bash', 'pytest', 'SQLite', 'SQLAlchemy', 'Alembic', 'pandas', 'NumPy', 'Streamlit'] },
-  { group: 'Additional', items: ['REST API integration', 'MQTT', 'TLS', 'LLM integration', 'Autodesk Fusion'] },
+  { group: 'Backend and infrastructure', items: ['PostgreSQL', 'Redis', 'SQLite', 'Docker Compose', 'Linux', 'Bash', 'Git'] },
+  { group: 'Frameworks and tools', items: ['SQLAlchemy', 'Alembic', 'pytest', 'pandas', 'NumPy', 'Streamlit', 'LiteLLM'] },
+  { group: 'Additional', items: ['REST APIs', 'MQTT', 'TLS', 'Retrieval-augmented generation (RAG)', 'Autodesk Fusion'] },
 ];
 
 export const skillsSource = 'PROFILE-SYNC.md §Skills';

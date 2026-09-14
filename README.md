@@ -24,6 +24,16 @@ The design preserves original documents, measurements, source references, and co
 
 [syncretos.com](https://syncretos.com) · [github.com/syncretos-ai](https://github.com/syncretos-ai)
 
+### Android Security Research
+
+Personal project · 2026
+
+Python · PostgreSQL · SQLite · APK reverse engineering
+
+Built a Python pipeline for Android APK reverse engineering and backend security assessment to identify exposed API credentials. Validated affected APIs and reported confirmed credential exposures to application developers.
+
+Implemented encrypted delivery of research results to PostgreSQL, with SQLite checkpoints and idempotent retries to prevent data loss and duplicate ingestion after connection failures or restarts.
+
 ### Rendexis
 
 Personal project · 2026
@@ -102,9 +112,11 @@ A Python trading bot running against MetaTrader 5, pulling market data through y
 
 Languages: Python, C++, SQL.
 
-Tools and libraries: Git, Linux/Bash, pytest, SQLite, SQLAlchemy, Alembic, pandas, NumPy, Streamlit.
+Backend and infrastructure: PostgreSQL, Redis, SQLite, Docker Compose, Linux, Bash, Git.
 
-Additional: REST API integration, MQTT, TLS, LLM integration, Autodesk Fusion.
+Frameworks and tools: SQLAlchemy, Alembic, pytest, pandas, NumPy, Streamlit, LiteLLM.
+
+Additional: REST APIs, MQTT, TLS, Retrieval-augmented generation (RAG), Autodesk Fusion.
 
 ## Education
 
