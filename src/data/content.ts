@@ -1,18 +1,12 @@
-/**
- * Every string rendered on the site lives here.
- *
- * `source` on each record names the file and section it traces to. The only two
- * permitted sources are SOURCE-LINKEDIN.md and INTERVIEW.md; where they disagree,
- * INTERVIEW.md wins. Nothing may be added here that does not appear in one of them.
- */
+/** Site copy follows the current resume facts in PROFILE-SYNC.md and retained interview details. */
 
 export const identity = {
   name: 'Huseyn Aslanli',
   role: 'Founder, Syncretos',
-  descriptor: 'Evidence-first multi-LLM AI research',
+  descriptor: 'Python applications, C++ firmware, and AI research',
   location: 'Greater Phoenix Area',
-  availability: 'Open to software engineering and AI/ML roles',
-  degree: 'B.S. Computer Science, Arizona State University',
+  availability: 'Software engineering internships, including teams building AI applications',
+  degree: 'B.S. Computer Science, cybersecurity concentration, Arizona State University',
   graduation: 'May 2028',
   // Split so the address is never a single literal in the served markup.
   emailUser: 'aslanlihuseyn87',
@@ -42,11 +36,14 @@ export const footerLinks: Link[] = [
 ].filter((l) => l.href !== '');
 
 export const lede =
-  'Building Syncretos, an engine where multiple language models debate against parsed ' +
-  'source data and return verifiable citations, or an honest blank page, instead of ' +
-  'invented answers. Before that: TLS and MQTT hardening for connected water systems, ' +
-  'custom in-ear monitors tuned to the Harman curve, a first-person shooter, and a ' +
-  'Python trading bot.';
+  "I'm a Computer Science student at ASU, graduating in May 2028. I build Python applications " +
+  'with persistent job queues and API integrations, and modify C++ firmware for ESP32. ' +
+  "I'm also the founder of Syncretos, where I'm designing a research system that combines " +
+  'independent searches by three LLM agents into a shared evidence base.';
+
+export const description =
+  'Huseyn Aslanli: Computer Science at ASU, graduating May 2028. Python applications, ' +
+  'C++ firmware, SQL, and Syncretos research architecture. Open to software engineering internships.';
 
 export type Link = { href: string; label: string };
 
@@ -68,59 +65,77 @@ export const work: Entry[] = [
   {
     org: 'Syncretos',
     role: 'Founder',
-    dates: 'May 2026 – Present',
-    meta: 'San Francisco Bay Area · Remote',
+    dates: 'May 2026 - Present',
+    meta: 'Research system design',
     body: [
-      'Syncretos exists to make AI research accountable. Multiple language models debate ' +
-        'against parsed source data, and what comes out either carries a verifiable citation ' +
-        'or is an honest blank page. Never an invented answer.',
-    ],
-    terms: [
-      {
-        term: 'Upfront fact parsing',
-        def: 'Source material is pre-structured into a dedicated database before drafting starts, so evidence is not lost to context limits.',
-      },
-      {
-        term: 'Adversarial cross-critique',
-        def: 'Blind model panels evaluate opposing claims against hard facts, then revise on the evidence.',
-      },
-      {
-        term: 'Fusion judge reconciliation',
-        def: "A dedicated judge layer surfaces trade-offs, caveats and dissenting views rather than forcing a consensus that isn't there.",
-      },
+      'Designing a Python research system with three independent LLM agents, each responsible ' +
+        'for its own search and source collection. Their source material feeds a shared evidence ' +
+        'store for cited answers and follow-up questions.',
+      'The design preserves original documents, measurements, source references, and conflicting ' +
+        'results. Retrieval-augmented generation (RAG), source provenance, and deduplication are ' +
+        'part of the architecture. The research engine is still in development.',
     ],
     links: [
       { href: 'https://syncretos.com', label: 'syncretos.com' },
       { href: 'https://github.com/syncretos-ai', label: 'github.com/syncretos-ai' },
     ],
-    source: 'SOURCE-LINKEDIN.md §Experience 1 + Resolved #2; INTERVIEW.md §Syncretos',
+    source: 'PROFILE-SYNC.md §Syncretos',
+  },
+  {
+    org: 'Rendexis',
+    role: 'Personal project',
+    dates: '2026',
+    meta: 'Python · SQLite · SQLAlchemy · Alembic · pytest',
+    body: [
+      'Built an asynchronous Telegram application for image and video generation with OpenAI ' +
+        'and Google APIs. Jobs, provider attempts, and artifacts are stored in SQLite through ' +
+        'SQLAlchemy, with schema changes managed by Alembic.',
+      'Transactional queue admission and idempotent confirmation prevent concurrent requests ' +
+        'from creating duplicate jobs or exceeding queue capacity. Restart recovery resumes ' +
+        'accepted video operations and avoids resubmitting requests with uncertain outcomes.',
+      'Regression tests cover concurrent confirmation, queue limits, timeouts, restart recovery, ' +
+        'and database migrations. The current application runs locally, with mocked providers ' +
+        'and temporary databases used for these tests.',
+    ],
+    source: 'PROFILE-SYNC.md §Rendexis',
+  },
+  {
+    org: 'WLED firmware extensions',
+    role: 'Personal project',
+    dates: '2026',
+    meta: 'C++ · ESP32 · DDP · Python',
+    body: [
+      'Patched existing WLED firmware for ESP32, replacing a fixed DDP frame delay with checks ' +
+        'for bus readiness and correcting RGBWW output while preserving other protocol timing.',
+      'Validated color-channel behavior across 2.58 million input combinations in a host test ' +
+        'harness using the actual C++ functions. Separate checks cover timing boundaries, a busy ' +
+        'bus, and clock wraparound. Deployed the patched firmware through OTA updates.',
+    ],
+    source: 'PROFILE-SYNC.md §WLED',
   },
   {
     org: 'Claude Builder Club at ASU',
     role: 'Board Member',
-    dates: 'Jan 2026 – Present',
+    dates: 'Jan 2026 - Aug 2026',
     meta: 'Hybrid',
     body: [
-      'Leads workshops where students build web and OS-native apps with Claude Code. Each ' +
-        'app is deliberately small and built around a single concrete concept, so the ' +
-        'technique carries into whatever the student builds next.',
+      'Led workshops where students built web and OS-native apps with Claude Code. Each ' +
+        'app focused on a single concrete concept, so the ' +
+        'technique could carry into larger projects. Organized development teams and taught Claude API integration and agent workflows.',
     ],
     source: 'INTERVIEW.md §Claude Builder Club (replaces the LinkedIn wording entirely)',
   },
   {
-    org: 'Extern @ Hydroficient',
-    role: 'Security Engineer',
+    org: 'Hydroficient, via Extern',
+    role: 'Security Engineer Extern',
     dates: 'Feb 2026 – May 2026',
-    meta: 'Contract',
     body: [
-      'An attacker who reaches the operator dashboard of a connected water system can move ' +
-        'physical controls: raise voltage, tamper with sewer equipment. The scenario was ' +
-        "competitive sabotage, one operator breaking into a rival's dashboard to damage " +
-        'their infrastructure. The work was to close that path.',
-      'Built and secured an MQTT pipeline in Python with TLS and device certificates, so the ' +
-        'control channel could not be hijacked or replayed. Ran replay-attack simulations and ' +
-        'TLS performance benchmarking, identifying weaknesses and tuning the defenses. Built ' +
-        'a Streamlit dashboard to track pipeline health and system status.',
+      'Built a Python MQTT pipeline for simulated water monitoring, securing device communications ' +
+        'with TLS and device certificates. Ran replay-attack simulations and TLS benchmarks to ' +
+        'identify vulnerabilities and tune defenses.',
+      'Built a Streamlit dashboard for pipeline monitoring, threat detection, and system status. ' +
+        'The work examined the control path from an operator dashboard to connected equipment, ' +
+        'using simulated attacks rather than a real intrusion.',
     ],
     source: 'SOURCE-LINKEDIN.md §Experience 3 + Resolved #1, #3; INTERVIEW.md §Hydroficient',
   },
@@ -131,7 +146,7 @@ export const work: Entry[] = [
     meta: 'Tempe, Arizona · Hybrid',
     body: [
       'Cold outreach to senior engineers at companies including Apple, Nvidia and Google, ' +
-        'bringing them onto campus for talks and workshops. Ran the chapter’s corporate ' +
+        'bringing them onto campus for talks and workshops. Ran the chapter\'s corporate ' +
         'relations as the link between the student body and industry, and hosted technical ' +
         'deep-dive sessions pairing CS students with mentors and recruiters.',
     ],
@@ -149,7 +164,7 @@ export const work: Entry[] = [
         dates: 'Jan 2024 – Apr 2024',
         body:
           'Designed and built custom high-fidelity in-ear monitors around integrated Qudelix ' +
-          '5K DAC/amps, then equalized them in software to match the Harman curve. The ' +
+          '5K DAC/amps, then equalized them in software toward the Harman target curve. The ' +
           'prototype was validated and sold to a private client for $5,880.',
       },
       {
@@ -167,10 +182,10 @@ export const work: Entry[] = [
     org: 'SG&Richardson Trading DMCC',
     role: 'Technical Analyst',
     dates: 'May 2023 – Aug 2023',
-    meta: 'Full-time · Dubai, United Arab Emirates · Remote',
+    meta: 'Internship · Remote',
     body: [
       'A Python trading bot running against MetaTrader 5, pulling market data through ' +
-        'yfinance and doing the analysis in pandas and numpy, with signals built on RSI and ' +
+        'yfinance and doing the analysis in pandas and NumPy, with signals built on RSI and ' +
         'momentum thresholds.',
     ],
     source: 'SOURCE-LINKEDIN.md §Experience 6; INTERVIEW.md §Trading bot',
@@ -178,33 +193,19 @@ export const work: Entry[] = [
 ];
 
 export const skills: { group: string; items: string[] }[] = [
-  { group: 'Languages', items: ['Python', 'C++', 'Java', 'SQL'] },
-  {
-    group: 'AI',
-    items: [
-      'Large language models',
-      'Natural language processing',
-      'Artificial neural networks',
-      'APIs',
-    ],
-  },
-  {
-    group: 'Security',
-    items: ['Threat modeling', 'Enterprise network security', 'Information assurance'],
-  },
-  {
-    group: 'Systems',
-    items: ['System architecture', 'MQTT', 'Internet of Things', 'Digital signal processing'],
-  },
-  { group: 'Tools', items: ['Git', 'Streamlit'] },
+  { group: 'Languages', items: ['Python', 'C++', 'SQL'] },
+  { group: 'Tools and libraries', items: ['Git', 'Linux/Bash', 'pytest', 'SQLite', 'SQLAlchemy', 'Alembic', 'pandas', 'NumPy', 'Streamlit'] },
+  { group: 'Additional', items: ['REST API integration', 'MQTT', 'TLS', 'LLM integration', 'Autodesk Fusion'] },
 ];
 
-export const skillsSource = 'SOURCE-LINKEDIN.md §Skills to actually display (the curated 17)';
+export const skillsSource = 'PROFILE-SYNC.md §Skills';
 
 export const education = {
-  degree: 'Bachelor of Science, Computer Science',
+  degree: 'B.S. Computer Science, cybersecurity concentration',
   school: 'Arizona State University',
   dates: 'Aug 2024 – May 2028',
+  completedCoursework: 'Introduction to Programming Languages (CSE 240)',
+  currentCoursework: 'Data Structures and Algorithms (CSE 310), Software Engineering (CSE 360)',
   activities: [
     'Association of Computing Machinery',
     'Claude Builders Club',

@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Field from '../components/Field.astro';
-import { identity, lede, work, skills, education, profileButtons, footerLinks } from '../data/content';
+import { identity, lede, description, work, skills, education, profileButtons, footerLinks } from '../data/content';
 
 /** Numeric character references: the address never appears as a plain literal. */
 const entities = (s: string) =>
@@ -13,10 +13,6 @@ const address = `${identity.emailUser}@${identity.emailDomain}`;
 const emailText = entities(address);
 const emailHref = entities(`mailto:${address}`);
 
-const description =
-  'Huseyn Aslanli, founder of Syncretos, building evidence-first multi-LLM AI research. ' +
-  'Computer science at Arizona State University, graduating May 2028. Open to software ' +
-  'engineering and AI/ML roles.';
 ---
 
 <!doctype html>
@@ -66,7 +62,7 @@ const description =
             </div>
             <div>
               <dt>Open to</dt>
-              <dd>Software engineering and AI/ML roles</dd>
+              <dd>{identity.availability}</dd>
             </div>
             <div>
               <dt>Based in</dt>
@@ -160,7 +156,7 @@ const description =
                   <dd>
                     {g.items.map((item, i) => (
                       <>
-                        {i > 0 && <span class="sep">·</span>}
+                        {i > 0 && <><span class="sep">·</span><wbr /></>}
                         {item}
                       </>
                     ))}
@@ -181,8 +177,10 @@ const description =
             <p class="edu__dates">{education.dates}</p>
           </div>
           <dl class="edu__aside">
-            <dt>Activities</dt>
-            <dd>{education.activities.join(', ')}</dd>
+            <dt>Completed coursework</dt>
+            <dd>{education.completedCoursework}</dd>
+            <dt>In progress</dt>
+            <dd>{education.currentCoursework}</dd>
           </dl>
         </div>
       </section>
