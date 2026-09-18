@@ -126,7 +126,9 @@ const emailHref = entities(`mailto:${address}`);
                 <span>Additional skills</span>
                 <svg class="skills-more__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
               </summary>
-              <SkillsList groups={additionalSkills} />
+              <div class="disclosure-content" data-disclosure-content>
+                <SkillsList groups={additionalSkills} />
+              </div>
             </details>
           </div>
         </div>
@@ -166,6 +168,11 @@ const emailHref = entities(`mailto:${address}`);
     </footer>
 
     <script>
+      import { Disclosure } from '../scripts/disclosure';
+
+      const additionalSkills = document.querySelector<HTMLDetailsElement>('#additional-skills');
+      if (additionalSkills) new Disclosure(additionalSkills);
+
       const revealables = document.querySelectorAll<HTMLElement>('.reveal');
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         revealables.forEach((el) => el.classList.add('is-in'));

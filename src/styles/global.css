@@ -519,9 +519,16 @@ a {
   display: block;
 }
 
-.archive__panels.is-switching {
+.disclosure-content {
+  display: flow-root;
+}
+
+.is-height-animating {
   overflow: clip;
-  overflow-clip-margin: 6px;
+}
+
+html.is-changing-height {
+  overflow-anchor: none;
 }
 
 .archive__count {
@@ -625,7 +632,8 @@ a {
   transition: transform 180ms var(--ease);
 }
 
-.archive-entry[open] > summary .archive-entry__chevron {
+.archive-entry[open]:not([data-expanded]) > summary .archive-entry__chevron,
+.archive-entry[data-expanded='true'] > summary .archive-entry__chevron {
   transform: rotate(180deg);
 }
 
@@ -712,7 +720,8 @@ a {
   transition: transform 180ms var(--ease);
 }
 
-.skills-more[open] .skills-more__chevron {
+.skills-more[open]:not([data-expanded]) .skills-more__chevron,
+.skills-more[data-expanded='true'] .skills-more__chevron {
   transform: rotate(180deg);
 }
 
