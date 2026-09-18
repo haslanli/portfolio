@@ -1,0 +1,42 @@
+---
+import type { Entry } from '../data/content';
+
+interface Props {
+  entry: Entry;
+}
+
+const { entry } = Astro.props;
+---
+
+{entry.body.map((para) => <p>{para}</p>)}
+
+{entry.terms && (
+  <dl class="terms">
+    {entry.terms.map((t) => (
+      <div>
+        <dt>{t.term}</dt>
+        <dd>{t.def}</dd>
+      </div>
+    ))}
+  </dl>
+)}
+
+{entry.subroles && (
+  <div class="subroles">
+    {entry.subroles.map((s) => (
+      <div>
+        <h4>{s.role}</h4>
+        <p class="sub-dates">{s.dates}</p>
+        {s.body.map((para) => <p>{para}</p>)}
+      </div>
+    ))}
+  </div>
+)}
+
+{entry.links && (
+  <div class="entry__links">
+    {entry.links.map((l) => (
+      <a class="block" href={l.href} rel="noopener">{l.label}</a>
+    ))}
+  </div>
+)}

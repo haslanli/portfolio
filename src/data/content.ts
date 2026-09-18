@@ -5,7 +5,6 @@ export const identity = {
   role: 'Founder, Syncretos',
   descriptor: 'Python applications, C++ firmware, and AI research',
   location: 'Greater Phoenix Area',
-  availability: 'Software engineering internships, including teams building AI applications',
   degree: 'B.S. Computer Science, cybersecurity concentration, Arizona State University',
   graduation: 'May 2028',
   // Split so the address is never a single literal in the served markup.
@@ -36,20 +35,23 @@ export const footerLinks: Link[] = [
 ].filter((l) => l.href !== '');
 
 export const lede =
-  "I'm a Computer Science student at ASU, graduating in May 2028. I build Python applications " +
-  'with persistent job queues and API integrations, and modify C++ firmware for ESP32. ' +
+  "I'm a Computer Science student at ASU, graduating in May 2028. I have built Python applications " +
+  'with persistent job queues and API integrations and modified C++ firmware for ESP32. ' +
   "I'm also the founder of Syncretos, where I'm designing a research system that combines " +
   'independent searches by three LLM agents into a shared evidence base.';
 
 export const description =
   'Huseyn Aslanli: Computer Science at ASU, graduating May 2028. Python applications, ' +
-  'C++ firmware, SQL, and Syncretos research architecture. Open to software engineering internships.';
+  'C++ firmware, SQL, and Syncretos research architecture.';
 
 export type Link = { href: string; label: string };
 
-export type Subrole = { role: string; dates: string; body: string };
+export type Subrole = { title?: string; role: string; dates: string; body: string[] };
 
 export type Entry = {
+  id: string;
+  category: 'project' | 'experience' | 'leadership';
+  featured?: boolean;
   org: string;
   role: string;
   dates: string;
@@ -63,40 +65,57 @@ export type Entry = {
 
 export const work: Entry[] = [
   {
+    id: 'syncretos',
+    category: 'experience',
+    featured: true,
     org: 'Syncretos',
     role: 'Founder',
     dates: 'May 2026 - Present',
-    meta: 'Research system design',
+    meta: 'Python · Agent workflows · RAG · Document processing',
     body: [
-      'Designing a Python research system with three independent LLM agents, each responsible ' +
-        'for its own search and source collection. Their source material feeds a shared evidence ' +
-        'store for cited answers and follow-up questions.',
-      'The design preserves original documents, measurements, source references, and conflicting ' +
-        'results. Retrieval-augmented generation (RAG), source provenance, and deduplication are ' +
-        'part of the architecture. The research engine is still in development.',
+      'Designing a Python system where three autonomous LLM agents independently research a ' +
+        'question, collect documents and observations, and merge their collections into a ' +
+        'shared evidence base for cited answers and follow-up questions.',
+      'The evidence model preserves original documents, table values, measurement conditions, ' +
+        'and exact source references. It retains conflicting observations, separates source ' +
+        'claims from derived conclusions, and deduplicates documents without losing provenance. ' +
+        'Follow-up answers can retrieve supporting passages from the original sources.',
+      'Compared PydanticAI, LangGraph, and SGR Agent Core for tool use, agent state, and ' +
+        'interruption recovery. Research covers lightweight working memory, SQLite/FTS5 ' +
+        'retrieval, and DSPy for evaluating extraction accuracy and whether citations support answers.',
+      'Evaluated Tavily and OpenAlex for source discovery, Trafilatura and Firecrawl for web ' +
+        'extraction, and Docling, LangExtract, and Mistral OCR for preserving text, tables, and ' +
+        'source locations during document processing.',
     ],
     links: [
       { href: 'https://syncretos.com', label: 'syncretos.com' },
-      { href: 'https://github.com/syncretos-ai', label: 'github.com/syncretos-ai' },
     ],
     source: 'PROFILE-SYNC.md §Syncretos',
   },
   {
+    id: 'android-security',
+    category: 'project',
+    featured: true,
     org: 'Android Security Research',
     role: 'Personal project',
     dates: '2026',
     meta: 'Python · PostgreSQL · SQLite · APK reverse engineering',
     body: [
-      'Built a Python pipeline for Android APK reverse engineering and backend security ' +
-        'assessment to identify exposed API credentials. Validated affected APIs and reported ' +
-        'confirmed credential exposures to application developers.',
-      'Implemented encrypted delivery of research results to PostgreSQL, with SQLite ' +
-        'checkpoints and idempotent retries to prevent data loss and duplicate ingestion ' +
-        'after connection failures or restarts.',
+      'Built a Python pipeline for Android APK analysis and a central database of APIs with ' +
+        'functional validation results. Investigated exposed API credentials, validated ' +
+        'affected APIs, and reported confirmed exposures to application developers.',
+      'Separated APK processing from result ingestion using SQLite checkpoints, an encrypted ' +
+        'disk-backed outbox, and authenticated delivery into PostgreSQL. Retried interrupted ' +
+        'submissions under stable IDs and retained durable receipts to prevent duplicate ' +
+        'ingestion after connection loss or restarts. Tested recovery across process restarts, ' +
+        'lost acknowledgments, and database outages.',
     ],
     source: 'PROFILE-SYNC.md §Android Security Research',
   },
   {
+    id: 'rendexis',
+    category: 'project',
+    featured: true,
     org: 'Rendexis',
     role: 'Personal project',
     dates: '2026',
@@ -115,6 +134,9 @@ export const work: Entry[] = [
     source: 'PROFILE-SYNC.md §Rendexis',
   },
   {
+    id: 'wled',
+    category: 'project',
+    featured: true,
     org: 'WLED firmware extensions',
     role: 'Personal project',
     dates: '2026',
@@ -129,6 +151,8 @@ export const work: Entry[] = [
     source: 'PROFILE-SYNC.md §WLED',
   },
   {
+    id: 'claude-builder-club',
+    category: 'leadership',
     org: 'Claude Builder Club at ASU',
     role: 'Board Member',
     dates: 'Jan 2026 - Aug 2026',
@@ -141,6 +165,8 @@ export const work: Entry[] = [
     source: 'INTERVIEW.md §Claude Builder Club (replaces the LinkedIn wording entirely)',
   },
   {
+    id: 'hydroficient',
+    category: 'experience',
     org: 'Hydroficient, via Extern',
     role: 'Security Engineer Extern',
     dates: 'Feb 2026 – May 2026',
@@ -155,19 +181,23 @@ export const work: Entry[] = [
     source: 'SOURCE-LINKEDIN.md §Experience 3 + Resolved #1, #3; INTERVIEW.md §Hydroficient',
   },
   {
+    id: 'acm',
+    category: 'leadership',
     org: 'ACM at ASU',
     role: 'Vice President, Corporate Relations',
     dates: 'Jan 2026 – May 2026',
     meta: 'Tempe, Arizona · Hybrid',
     body: [
-      'Cold outreach to senior engineers at companies including Apple, Nvidia and Google, ' +
-        'bringing them onto campus for talks and workshops. Ran the chapter\'s corporate ' +
+      'Conducted cold outreach to senior engineers at companies including Apple, Nvidia and Google ' +
+        'and brought them onto campus for talks and workshops. Ran the chapter\'s corporate ' +
         'relations as the link between the student body and industry, and hosted technical ' +
         'deep-dive sessions pairing CS students with mentors and recruiters.',
     ],
     source: 'SOURCE-LINKEDIN.md §Experience 4, status language cut per PROMPT.md Rule 4',
   },
   {
+    id: 'independent-developer',
+    category: 'project',
     org: 'Independent Developer',
     role: 'Self-employed',
     dates: 'Sep 2023 – Apr 2024',
@@ -175,43 +205,69 @@ export const work: Entry[] = [
     body: [],
     subroles: [
       {
+        title: 'Custom in-ear monitors',
         role: 'Hardware Technician',
         dates: 'Jan 2024 – Apr 2024',
-        body:
-          'Designed and built custom high-fidelity in-ear monitors around integrated Qudelix ' +
-          '5K DAC/amps, then equalized them in software toward the Harman target curve. The ' +
-          'prototype was validated and sold to a private client for $5,880.',
+        body: [
+          'Developed custom in-ear monitors through extensive modifications to an OEM ' +
+            "platform, integrating a Qudelix 5K DAC/amp into the earphones' signal path.",
+          'Wrote a custom algorithm that generated personalized EQ profiles from acoustic ' +
+            "measurements taken inside the user's ear with a small microphone near the " +
+            'eardrum. Used the Harman target as a tuning reference and sold the completed ' +
+            'prototype to a private client for $5,880.',
+        ],
       },
       {
+        title: 'First-person shooter',
         role: 'Game Developer',
         dates: 'Sep 2023 – Dec 2023',
-        body:
-          "A first-person shooter built in Unity, mostly in Bolt, Unity's visual scripting " +
-          'system, mixing custom logic with existing assets. Escape from Tarkov and the ' +
-          'Metro series were the reference points. Sold for $800.',
+        body: [
+          'Built a complete, story-driven single-player FPS in Unity, inspired by Escape from ' +
+            'Tarkov and the Metro series. Used C# and Bolt visual scripting for gameplay logic, ' +
+            'Animator for animation state transitions, and NavMesh for enemy navigation.',
+          'Created the HUD and menus with Unity UI and TextMeshPro, shaped level geometry with ' +
+            'ProBuilder, and combined Cinemachine camera control with Timeline sequences. ' +
+            'Integrated custom logic with existing assets and sold the completed game for $800.',
+        ],
       },
     ],
-    source: 'SOURCE-LINKEDIN.md §Experience 5a, 5b; INTERVIEW.md §Game project',
+    source: 'PROFILE-SYNC.md §Legacy projects; SOURCE-LINKEDIN.md §Experience 5a, 5b; INTERVIEW.md §Game project',
   },
   {
+    id: 'trading',
+    category: 'experience',
     org: 'SG&Richardson Trading DMCC',
     role: 'Technical Analyst',
     dates: 'May 2023 – Aug 2023',
     meta: 'Internship · Remote',
     body: [
-      'A Python trading bot running against MetaTrader 5, pulling market data through ' +
-        'yfinance and doing the analysis in pandas and NumPy, with signals built on RSI and ' +
-        'momentum thresholds.',
+      'Built a Python trading bot for MetaTrader 5 that pulled market data through yfinance ' +
+        'and analyzed it with pandas and NumPy, using signals based on RSI and momentum thresholds.',
     ],
     source: 'SOURCE-LINKEDIN.md §Experience 6; INTERVIEW.md §Trading bot',
   },
 ];
 
-export const skills: { group: string; items: string[] }[] = [
-  { group: 'Languages', items: ['Python', 'C++', 'SQL'] },
-  { group: 'Backend and infrastructure', items: ['PostgreSQL', 'Redis', 'SQLite', 'Docker Compose', 'Linux', 'Bash', 'Git'] },
-  { group: 'Frameworks and tools', items: ['SQLAlchemy', 'Alembic', 'pytest', 'pandas', 'NumPy', 'Streamlit', 'LiteLLM'] },
-  { group: 'Additional', items: ['REST APIs', 'MQTT', 'TLS', 'Retrieval-augmented generation (RAG)', 'Autodesk Fusion'] },
+export type SkillGroup = { group: string; items: string[] };
+
+export const skills: SkillGroup[] = [
+  { group: 'Programming languages', items: ['Python', 'C++', 'C#', 'SQL'] },
+  { group: 'Backend and databases', items: ['REST APIs', 'Asynchronous programming', 'PostgreSQL', 'Redis', 'SQLite', 'SQLAlchemy'] },
+  { group: 'AI and data', items: ['NumPy', 'pandas', 'LLM API integration', 'LiteLLM', 'Retrieval-augmented generation (RAG)'] },
+  { group: 'Systems and tooling', items: ['Git', 'Linux', 'Bash', 'Docker Compose'] },
+  { group: 'Security', items: ['APK reverse engineering', 'API validation', 'TLS', 'Device certificates'] },
+  { group: 'Testing', items: ['pytest', 'Concurrency testing'] },
+];
+
+export const additionalSkills: SkillGroup[] = [
+  { group: 'Backend and reliability', items: ['Alembic', 'Transactional job queues', 'Regression testing', 'Idempotency', 'Restart recovery'] },
+  { group: 'AI system design', items: ['Multi-agent system design', 'Tool calling', 'Structured extraction', 'Source provenance'] },
+  { group: 'Framework research', items: ['PydanticAI', 'LangGraph', 'SGR Agent Core', 'DSPy'] },
+  { group: 'Infrastructure and IoT', items: ['systemd', 'SSH', 'MQTT'] },
+  { group: 'Data tools', items: ['Streamlit', 'Power BI'] },
+  { group: 'Game development', items: ['Unity', 'Unity Visual Scripting (Bolt)', 'Animator', 'NavMesh', 'Cinemachine'] },
+  { group: 'Hardware and audio', items: ['ESP32 firmware', 'Autodesk Fusion', 'Audio system integration', 'Audio equalization', 'In-ear acoustic measurement'] },
+  { group: 'Spoken languages', items: ['English', 'Russian', 'Azerbaijani', 'Turkish (comprehension)', 'German (basic)'] },
 ];
 
 export const skillsSource = 'PROFILE-SYNC.md §Skills';

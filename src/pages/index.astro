@@ -1,7 +1,10 @@
 ---
 import '../styles/global.css';
 import Field from '../components/Field.astro';
-import { identity, lede, description, work, skills, education, profileButtons, footerLinks } from '../data/content';
+import EntryBody from '../components/EntryBody.astro';
+import WorkArchive from '../components/WorkArchive.astro';
+import SkillsList from '../components/SkillsList.astro';
+import { identity, lede, description, work, skills, additionalSkills, education, profileButtons, footerLinks } from '../data/content';
 
 /** Numeric character references: the address never appears as a plain literal. */
 const entities = (s: string) =>
@@ -61,10 +64,6 @@ const emailHref = entities(`mailto:${address}`);
               <dd>{identity.degree}. Graduating {identity.graduation}.</dd>
             </div>
             <div>
-              <dt>Open to</dt>
-              <dd>{identity.availability}</dd>
-            </div>
-            <div>
               <dt>Based in</dt>
               <dd>{identity.location}</dd>
             </div>
@@ -87,13 +86,13 @@ const emailHref = entities(`mailto:${address}`);
         </div>
       </header>
 
-      <section class="section" aria-labelledby="work-h">
+      <section class="section" aria-labelledby="featured-h">
         <div class="grid">
-          <h2 class="marginal" id="work-h">Work</h2>
+          <h2 class="marginal" id="featured-h">Featured</h2>
 
           {
-            work.map((entry, i) => (
-              <article class:list={['entry', 'reveal', i === 0 && 'entry--lead']}>
+            work.filter((entry) => entry.featured).map((entry, i) => (
+              <article id={entry.id} class:list={['entry', 'reveal', i === 0 && 'entry--lead']}>
                 <div class="entry__stub">
                   <h3 class="entry__org">{entry.org}</h3>
                   <p class="entry__role">{entry.role}</p>
@@ -102,42 +101,7 @@ const emailHref = entities(`mailto:${address}`);
                 </div>
 
                 <div class="entry__body">
-                  {entry.body.map((para) => (
-                    <p>{para}</p>
-                  ))}
-
-                  {entry.terms && (
-                    <dl class="terms">
-                      {entry.terms.map((t) => (
-                        <div>
-                          <dt>{t.term}</dt>
-                          <dd>{t.def}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  )}
-
-                  {entry.subroles && (
-                    <div class="subroles">
-                      {entry.subroles.map((s) => (
-                        <div>
-                          <h4>{s.role}</h4>
-                          <p class="sub-dates">{s.dates}</p>
-                          <p>{s.body}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {entry.links && (
-                    <div class="entry__links">
-                      {entry.links.map((l) => (
-                        <a class="block" href={l.href} rel="noopener">
-                          {l.label}
-                        </a>
-                      ))}
-                    </div>
-                  )}
+                  <EntryBody entry={entry} />
                 </div>
               </article>
             ))
@@ -145,26 +109,26 @@ const emailHref = entities(`mailto:${address}`);
         </div>
       </section>
 
+      <section class="section" aria-labelledby="archive-h">
+        <div class="grid">
+          <h2 class="marginal" id="archive-h">More work</h2>
+          <WorkArchive />
+        </div>
+      </section>
+
       <section class="section" aria-labelledby="skills-h">
         <div class="grid">
           <h2 class="marginal" id="skills-h">Skills</h2>
-          <dl class="skills">
-            {
-              skills.map((g) => (
-                <div>
-                  <dt>{g.group}</dt>
-                  <dd>
-                    {g.items.map((item, i) => (
-                      <>
-                        {i > 0 && <><span class="sep">·</span><wbr /></>}
-                        {item}
-                      </>
-                    ))}
-                  </dd>
-                </div>
-              ))
-            }
-          </dl>
+          <div class="skills-content">
+            <SkillsList groups={skills} />
+            <details class="skills-more" id="additional-skills">
+              <summary class="skills-more__summary">
+                <span>Additional skills</span>
+                <svg class="skills-more__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+              </summary>
+              <SkillsList groups={additionalSkills} />
+            </details>
+          </div>
         </div>
       </section>
 

@@ -1,0 +1,220 @@
+---
+import { work } from '../data/content';
+import EntryBody from './EntryBody.astro';
+
+const sections = [
+  { id: 'projects', label: 'Projects', category: 'project' },
+  { id: 'experience', label: 'Experience', category: 'experience' },
+  { id: 'leadership', label: 'Leadership', category: 'leadership' },
+].map((section) => {
+  const entries = work.filter((entry) => !entry.featured && entry.category === section.category);
+  return {
+    ...section,
+    entries,
+    count: entries.reduce((total, entry) => total + (entry.subroles?.length || 1), 0),
+  };
+});
+---
+
+<div class="archive" data-work-archive>
+  <nav class="archive__tabs" aria-label="More work" data-tab-list>
+    {sections.map((section) => (
+      <a class="archive__tab" id={`${section.id}-tab`} href={`#${section.id}`} data-tab>
+        {section.label}<span class="archive__count" aria-hidden="true">{section.count}</span>
+      </a>
+    ))}
+    <span class="archive__indicator" aria-hidden="true" data-tab-indicator></span>
+  </nav>
+
+  <div class="archive__panels" data-panel-container>
+    {sections.map((section) => (
+      <section class="archive__panel" id={section.id} aria-labelledby={`${section.id}-heading`} data-panel>
+        <h2 class="archive__heading" id={`${section.id}-heading`}>{section.label}</h2>
+        {section.entries.map((entry) => entry.subroles ? (
+          <div class="archive__group" id={entry.id}>
+            <header class="archive__group-head">
+              <div>
+                <h3>{entry.org}</h3>
+                <p>{entry.role} · {entry.meta}</p>
+              </div>
+              <p class="archive__date">{entry.dates}</p>
+            </header>
+            {entry.subroles.map((subrole, i) => (
+              <details class="archive-entry" id={`${entry.id}-${i + 1}`}>
+                <summary class="archive-entry__summary">
+                  <div class="archive-entry__title">
+                    <h4>{subrole.title ?? subrole.role}</h4>
+                    <p>{subrole.role}</p>
+                  </div>
+                  <span class="archive__date">{subrole.dates}</span>
+                  <svg class="archive-entry__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                </summary>
+                <div class="archive-entry__body">
+                  {subrole.body.map((para) => <p>{para}</p>)}
+                </div>
+              </details>
+            ))}
+          </div>
+        ) : (
+          <details class="archive-entry" id={entry.id}>
+            <summary class="archive-entry__summary">
+              <div class="archive-entry__title">
+                <h3>{entry.org}</h3>
+                <p>{entry.role}</p>
+              </div>
+              <span class="archive__date">{entry.dates}</span>
+              <svg class="archive-entry__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <div class="archive-entry__body">
+              {entry.meta && <p class="archive-entry__meta">{entry.meta}</p>}
+              <EntryBody entry={entry} />
+            </div>
+          </details>
+        ))}
+      </section>
+    ))}
+  </div>
+</div>
+
+<script>
+  const archive = document.querySelector<HTMLElement>('[data-work-archive]');
+  const tabList = archive?.querySelector<HTMLElement>('[data-tab-list]');
+  const indicator = archive?.querySelector<HTMLElement>('[data-tab-indicator]');
+  const panelContainer = archive?.querySelector<HTMLElement>('[data-panel-container]');
+  const tabs = Array.from(archive?.querySelectorAll<HTMLAnchorElement>('[data-tab]') ?? []);
+  const panels = Array.from(archive?.querySelectorAll<HTMLElement>('[data-panel]') ?? []);
+
+  if (archive && tabList && indicator && panelContainer && tabs.length && tabs.length === panels.length) {
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const easing = 'cubic-bezier(0.22, 1, 0.36, 1)';
+    let activeIndex = -1;
+    let heightAnimation: Animation | undefined;
+    let heightTarget = 0;
+    let entryAnimations: Animation[] = [];
+
+    const updateIndicator = () => {
+      const tab = tabs[activeIndex];
+      if (!tab) return;
+      const bounds = tab.getBoundingClientRect();
+      const left = bounds.left - tabList.getBoundingClientRect().left;
+      indicator.style.width = `${bounds.width}px`;
+      indicator.style.transform = `translateX(${left}px)`;
+    };
+
+    const stopMotion = () => {
+      heightAnimation?.cancel();
+      heightAnimation = undefined;
+      entryAnimations.forEach((animation) => animation.cancel());
+      entryAnimations = [];
+      panelContainer.classList.remove('is-switching');
+    };
+
+    const animateHeight = (from: number, to: number) => {
+      heightAnimation?.cancel();
+      heightAnimation = undefined;
+      heightTarget = to;
+      panelContainer.classList.remove('is-switching');
+      if (Math.abs(from - to) < 1) return;
+      panelContainer.classList.add('is-switching');
+      const animation = panelContainer.animate(
+        { height: [`${from}px`, `${to}px`] },
+        { duration: 380, easing }
+      );
+      heightAnimation = animation;
+      animation.onfinish = () => {
+        if (heightAnimation !== animation) return;
+        heightAnimation = undefined;
+        panelContainer.classList.remove('is-switching');
+      };
+    };
+
+    const activate = (index: number, animate = true) => {
+      if (index === activeIndex) return;
+      const previousIndex = activeIndex;
+      const previousHeight = panelContainer.getBoundingClientRect().height;
+      stopMotion();
+      activeIndex = index;
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+        panels[i].hidden = i !== index;
+      });
+      updateIndicator();
+
+      if (!animate || previousIndex < 0 || reducedMotion.matches) return;
+      animateHeight(previousHeight, panels[index].getBoundingClientRect().height);
+      const direction = index > previousIndex ? 1 : -1;
+      const entries = panels[index].querySelectorAll<HTMLElement>('.archive__group-head, .archive-entry');
+      entryAnimations = Array.from(entries, (entry, i) => entry.animate(
+        [
+          { opacity: 0, transform: `translate(${direction * 12}px, 6px)` },
+          { opacity: 1, transform: 'translate(0, 0)' },
+        ],
+        { duration: 340, delay: Math.min(i, 3) * 30, easing, fill: 'backwards' }
+      ));
+    };
+
+    const showHashTarget = () => {
+      const target = document.getElementById(location.hash.slice(1));
+      const index = panels.findIndex((panel) => panel === target || (target && panel.contains(target)));
+      if (index < 0) return false;
+      activate(index, false);
+      if (target instanceof HTMLDetailsElement) target.open = true;
+      target?.scrollIntoView({ block: 'start' });
+      return true;
+    };
+
+    tabList.setAttribute('role', 'tablist');
+    tabs.forEach((tab, index) => {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', panels[index].id);
+      panels[index].setAttribute('role', 'tabpanel');
+      panels[index].setAttribute('aria-labelledby', tab.id);
+      panels[index].tabIndex = 0;
+
+      tab.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        activate(index);
+      });
+
+      tab.addEventListener('keydown', (event) => {
+        let next = index;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else if (event.key !== ' ') return;
+        event.preventDefault();
+        activate(next);
+        tabs[next].focus();
+      });
+    });
+
+    activate(0, false);
+    archive.classList.add('archive--enhanced');
+    showHashTarget();
+    window.addEventListener('hashchange', showHashTarget);
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateIndicator();
+      const height = panels[activeIndex].getBoundingClientRect().height;
+      if (heightAnimation && Math.abs(height - heightTarget) >= 1) {
+        animateHeight(panelContainer.getBoundingClientRect().height, height);
+      }
+    });
+    [tabList, ...tabs, ...panels].forEach((element) => resizeObserver.observe(element));
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) {
+        stopMotion();
+        indicator.getAnimations().forEach((animation) => animation.finish());
+      }
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopMotion();
+        indicator.getAnimations().forEach((animation) => animation.finish());
+      }
+    });
+  }
+</script>

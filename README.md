@@ -2,27 +2,30 @@
 
 Founder, Syncretos · Python applications, C++ firmware, and AI research
 
-I'm a Computer Science student at ASU, graduating in May 2028. I build Python applications with persistent job queues and API integrations, and modify C++ firmware for ESP32. I'm also the founder of Syncretos, where I'm designing a research system that combines independent searches by three LLM agents into a shared evidence base.
+I'm a Computer Science student at ASU, graduating in May 2028. I have built Python applications with persistent job queues and API integrations and modified C++ firmware for ESP32. I'm also the founder of Syncretos, where I'm designing a research system that combines independent searches by three LLM agents into a shared evidence base.
 
 - Education: B.S. Computer Science, cybersecurity concentration, Arizona State University. Graduating May 2028.
-- Open to: Software engineering internships, including teams building AI applications.
 - Based in: Greater Phoenix Area.
 
 [Email](mailto:aslanlihuseyn87@gmail.com) · [LinkedIn](https://www.linkedin.com/in/haslanli/) · [GitHub](https://github.com/haslanli/)
 
-## Work
+## Featured
 
 ### Syncretos
 
 Founder · May 2026 - Present
 
-Research system design
+Python · Agent workflows · RAG · Document processing
 
-Designing a Python research system with three independent LLM agents, each responsible for its own search and source collection. Their source material feeds a shared evidence store for cited answers and follow-up questions.
+Designing a Python system where three autonomous LLM agents independently research a question, collect documents and observations, and merge their collections into a shared evidence base for cited answers and follow-up questions.
 
-The design preserves original documents, measurements, source references, and conflicting results. Retrieval-augmented generation (RAG), source provenance, and deduplication are part of the architecture. The research engine is still in development.
+The evidence model preserves original documents, table values, measurement conditions, and exact source references. It retains conflicting observations, separates source claims from derived conclusions, and deduplicates documents without losing provenance. Follow-up answers can retrieve supporting passages from the original sources.
 
-[syncretos.com](https://syncretos.com) · [github.com/syncretos-ai](https://github.com/syncretos-ai)
+Compared PydanticAI, LangGraph, and SGR Agent Core for tool use, agent state, and interruption recovery. Research covers lightweight working memory, SQLite/FTS5 retrieval, and DSPy for evaluating extraction accuracy and whether citations support answers.
+
+Evaluated Tavily and OpenAlex for source discovery, Trafilatura and Firecrawl for web extraction, and Docling, LangExtract, and Mistral OCR for preserving text, tables, and source locations during document processing.
+
+[syncretos.com](https://syncretos.com)
 
 ### Android Security Research
 
@@ -30,9 +33,9 @@ Personal project · 2026
 
 Python · PostgreSQL · SQLite · APK reverse engineering
 
-Built a Python pipeline for Android APK reverse engineering and backend security assessment to identify exposed API credentials. Validated affected APIs and reported confirmed credential exposures to application developers.
+Built a Python pipeline for Android APK analysis and a central database of APIs with functional validation results. Investigated exposed API credentials, validated affected APIs, and reported confirmed exposures to application developers.
 
-Implemented encrypted delivery of research results to PostgreSQL, with SQLite checkpoints and idempotent retries to prevent data loss and duplicate ingestion after connection failures or restarts.
+Separated APK processing from result ingestion using SQLite checkpoints, an encrypted disk-backed outbox, and authenticated delivery into PostgreSQL. Retried interrupted submissions under stable IDs and retained durable receipts to prevent duplicate ingestion after connection loss or restarts. Tested recovery across process restarts, lost acknowledgments, and database outages.
 
 ### Rendexis
 
@@ -56,13 +59,31 @@ Patched existing WLED firmware for ESP32, replacing a fixed DDP frame delay with
 
 Validated color-channel behavior across 2.58 million input combinations in a host test harness using the actual C++ functions. Separate checks cover timing boundaries, a busy bus, and clock wraparound. Deployed the patched firmware through OTA updates.
 
-### Claude Builder Club at ASU
+## Projects
 
-Board Member · Jan 2026 - Aug 2026
+### Independent Developer
 
-Hybrid
+Self-employed · Sep 2023 – Apr 2024
 
-Led workshops where students built web and OS-native apps with Claude Code. Each app focused on a single concrete concept, so the technique could carry into larger projects. Organized development teams and taught Claude API integration and agent workflows.
+Baku, Azerbaijan · On-site
+
+#### Custom in-ear monitors
+
+Hardware Technician · Jan 2024 – Apr 2024
+
+Developed custom in-ear monitors through extensive modifications to an OEM platform, integrating a Qudelix 5K DAC/amp into the earphones' signal path.
+
+Wrote a custom algorithm that generated personalized EQ profiles from acoustic measurements taken inside the user's ear with a small microphone near the eardrum. Used the Harman target as a tuning reference and sold the completed prototype to a private client for $5,880.
+
+#### First-person shooter
+
+Game Developer · Sep 2023 – Dec 2023
+
+Built a complete, story-driven single-player FPS in Unity, inspired by Escape from Tarkov and the Metro series. Used C# and Bolt visual scripting for gameplay logic, Animator for animation state transitions, and NavMesh for enemy navigation.
+
+Created the HUD and menus with Unity UI and TextMeshPro, shaped level geometry with ProBuilder, and combined Cinemachine camera control with Timeline sequences. Integrated custom logic with existing assets and sold the completed game for $800.
+
+## Experience
 
 ### Hydroficient, via Extern
 
@@ -72,51 +93,66 @@ Built a Python MQTT pipeline for simulated water monitoring, securing device com
 
 Built a Streamlit dashboard for pipeline monitoring, threat detection, and system status. The work examined the control path from an operator dashboard to connected equipment, using simulated attacks rather than a real intrusion.
 
-### ACM at ASU
-
-Vice President, Corporate Relations · Jan 2026 – May 2026
-
-Tempe, Arizona · Hybrid
-
-Cold outreach to senior engineers at companies including Apple, Nvidia and Google, bringing them onto campus for talks and workshops. Ran the chapter's corporate relations as the link between the student body and industry, and hosted technical deep-dive sessions pairing CS students with mentors and recruiters.
-
-### Independent Developer
-
-Self-employed · Sep 2023 – Apr 2024
-
-Baku, Azerbaijan · On-site
-
-
-
-#### Hardware Technician
-
-Jan 2024 – Apr 2024
-
-Designed and built custom high-fidelity in-ear monitors around integrated Qudelix 5K DAC/amps, then equalized them in software toward the Harman target curve. The prototype was validated and sold to a private client for $5,880.
-
-#### Game Developer
-
-Sep 2023 – Dec 2023
-
-A first-person shooter built in Unity, mostly in Bolt, Unity's visual scripting system, mixing custom logic with existing assets. Escape from Tarkov and the Metro series were the reference points. Sold for $800.
-
 ### SG&Richardson Trading DMCC
 
 Technical Analyst · May 2023 – Aug 2023
 
 Internship · Remote
 
-A Python trading bot running against MetaTrader 5, pulling market data through yfinance and doing the analysis in pandas and NumPy, with signals built on RSI and momentum thresholds.
+Built a Python trading bot for MetaTrader 5 that pulled market data through yfinance and analyzed it with pandas and NumPy, using signals based on RSI and momentum thresholds.
+
+## Leadership
+
+### Claude Builder Club at ASU
+
+Board Member · Jan 2026 - Aug 2026
+
+Hybrid
+
+Led workshops where students built web and OS-native apps with Claude Code. Each app focused on a single concrete concept, so the technique could carry into larger projects. Organized development teams and taught Claude API integration and agent workflows.
+
+### ACM at ASU
+
+Vice President, Corporate Relations · Jan 2026 – May 2026
+
+Tempe, Arizona · Hybrid
+
+Conducted cold outreach to senior engineers at companies including Apple, Nvidia and Google and brought them onto campus for talks and workshops. Ran the chapter's corporate relations as the link between the student body and industry, and hosted technical deep-dive sessions pairing CS students with mentors and recruiters.
 
 ## Skills
 
-Languages: Python, C++, SQL.
+Programming languages: Python, C++, C#, SQL.
 
-Backend and infrastructure: PostgreSQL, Redis, SQLite, Docker Compose, Linux, Bash, Git.
+Backend and databases: REST APIs, Asynchronous programming, PostgreSQL, Redis, SQLite, SQLAlchemy.
 
-Frameworks and tools: SQLAlchemy, Alembic, pytest, pandas, NumPy, Streamlit, LiteLLM.
+AI and data: NumPy, pandas, LLM API integration, LiteLLM, Retrieval-augmented generation (RAG).
 
-Additional: REST APIs, MQTT, TLS, Retrieval-augmented generation (RAG), Autodesk Fusion.
+Systems and tooling: Git, Linux, Bash, Docker Compose.
+
+Security: APK reverse engineering, API validation, TLS, Device certificates.
+
+Testing: pytest, Concurrency testing.
+
+<details>
+<summary>Additional skills</summary>
+
+Backend and reliability: Alembic, Transactional job queues, Regression testing, Idempotency, Restart recovery.
+
+AI system design: Multi-agent system design, Tool calling, Structured extraction, Source provenance.
+
+Framework research: PydanticAI, LangGraph, SGR Agent Core, DSPy.
+
+Infrastructure and IoT: systemd, SSH, MQTT.
+
+Data tools: Streamlit, Power BI.
+
+Game development: Unity, Unity Visual Scripting (Bolt), Animator, NavMesh, Cinemachine.
+
+Hardware and audio: ESP32 firmware, Autodesk Fusion, Audio system integration, Audio equalization, In-ear acoustic measurement.
+
+Spoken languages: English, Russian, Azerbaijani, Turkish (comprehension), German (basic).
+
+</details>
 
 ## Education
 
